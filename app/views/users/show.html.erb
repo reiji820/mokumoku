@@ -8,13 +8,20 @@
           
         </div>
         <div class="mb-3">
-          <%= @profile.name %>
+          <%= @user.name %>
         </div>
         <div class="mb-3">
-          <%= @profile.hobby %>
+          <%= @user.hobby %>
         </div>
         <div class="mb-3">
-          <%= @profile.profile %>
+          <%= @user.profile %>
         </div>
     </div>
+    <% unless @user == current_user %>
+      <% if current_user.following?(@user) %>
+        <%= link_to 'フォローを外す', unfollow_path(@user.id), method: :POST %>
+      <% else %>
+        <%= link_to 'フォローする', follow_path(@user.id), method: :POST %>
+      <% end %>
+    <% end %>
 </div>
