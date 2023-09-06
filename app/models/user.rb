@@ -15,8 +15,8 @@ class User < ApplicationRecord
   has_one_attached :avatar
   has_many :follower, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy 
   has_many :followed, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy 
-  has_many :following_user, through: :follower, source: :followed 
-  has_many :follower_user, through: :followed, source: :follower 
+  has_many :following_users, through: :follower, source: :followed 
+  has_many :follower_users, through: :followed, source: :follower 
 
   validates :password, length: { minimum: 3 }, if: -> { new_record? || changes[:crypted_password] }
   validates :password, confirmation: true, if: -> { new_record? || changes[:crypted_password] }
