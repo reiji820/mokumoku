@@ -110,12 +110,12 @@ ActiveRecord::Schema.define(version: 2023_09_02_055235) do
   end
 
   create_table "relationships", force: :cascade do |t|
-    t.integer "follower_id_id", null: false
-    t.integer "followed_id_id", null: false
+    t.integer "follower_id", null: false
+    t.integer "followed_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["followed_id_id"], name: "index_relationships_on_followed_id_id"
-    t.index ["follower_id_id"], name: "index_relationships_on_follower_id_id"
+    t.index ["followed_id"], name: "index_relationships_on_followed_id"
+    t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
   create_table "user_notification_timings", force: :cascade do |t|
