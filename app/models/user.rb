@@ -13,6 +13,10 @@ class User < ApplicationRecord
   has_many :user_notification_timings, dependent: :destroy
   has_many :notification_timings, through: :user_notification_timings
   has_one_attached :avatar
+  has_many :follower, class_name: 'Relationship', foreign_key: 'follower_id', dependent: :destroy, inverse_of: :follower
+  has_many :followed, class_name: 'Relationship', foreign_key: 'followed_id', dependent: :destroy, inverse_of: :followed
+  has_many :following_users, through: :follower, source: :followed
+  has_many :follower_users, through: :followed, source: :follower
 
   validates :password, length: { minimum: 3 }, if: -> { new_record? || changes[:crypted_password] }
   validates :password, confirmation: true, if: -> { new_record? || changes[:crypted_password] }
@@ -75,5 +79,25 @@ class User < ApplicationRecord
 
   def allow_liked_event_notification?
     notification_timings.liked_event.present?
+  end
+
+  # ユーザーをフォローする
+  def follow(user_id)
+    follower.create(followed_id: user_id)
+  end
+
+  # ユーザーのフォローを外す
+  def unfollow(user_id)
+    follow_user = follower.find_by(followed_id: user_id)
+    if follow_user.present?
+      follow_user.destroy
+    else
+      render 'user/show'
+    end
+  end
+
+  # フォロー確認をおこなう
+  def following?(user)
+    following_users.include?(user)
   end
 end

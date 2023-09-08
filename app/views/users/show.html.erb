@@ -1,0 +1,27 @@
+<div class="card">
+  <!-- Card header -->
+  <div class="card-header">
+    <h3 class="mb-0">プロフィール</h3>
+  </div>
+    <hr class="my-5">
+        <div class="mb-3">
+          
+        </div>
+        <div class="mb-3">
+          <%= @user.name %>
+        </div>
+        <div class="mb-3">
+          <%= @user.hobby %>
+        </div>
+        <div class="mb-3">
+          <%= @user.profile %>
+        </div>
+    </div>
+    <% unless @user == current_user %>
+      <% if current_user.following?(@user) %>
+        <%= link_to 'フォローを外す', unfollow_path(@user.id), method: :POST %>
+      <% else %>
+        <%= link_to 'フォローする', follow_path(@user.id), method: :POST %>
+      <% end %>
+    <% end %>
+</div>
